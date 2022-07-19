@@ -6,7 +6,12 @@ const userSchema = new Schema(
       type: String,
       unique: true 
     },
+    email: String,
+    password: String, 
   
+    userImage: {
+      type: String,
+    },
   couch: [{
     type: Schema.Types.ObjectId,
     ref: "Couch"
