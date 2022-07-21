@@ -18,9 +18,9 @@ const userSchema = new Schema(
     }
   },
   {
-   locarion:{
-      City :String,
-      Country: String
+   location:{
+      city :String,
+      country: String
    } 
   },
   {
@@ -30,7 +30,7 @@ const userSchema = new Schema(
     }
   },
   {
-    calender:{
+    calendar:{
       type: Number
     }
   },

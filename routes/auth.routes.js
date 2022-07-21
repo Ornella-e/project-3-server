@@ -3,13 +3,14 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const mongoose = require("mongoose")
 const User = require("../models/User.model")
+const isAuthenticated = require("../middlewares/isAuthenticated")
 const saltRounds = 10
 
 
 router.post("/signup", async (req, res, next) => {
-	const { name, email, password, userImage, couch, location } = req.body
+	const { username, email, password, userImage, couch, location } = req.body
 	console.log(req.body)
-	if (email === "" || name === "" || password === "") {
+	if (email === "" || username === "" || password === "") {
 		res
 			.status(400)
 			.json({ message: "Please provide your email, name and a password" })
@@ -26,7 +27,7 @@ router.post("/signup", async (req, res, next) => {
 		const hashedPass = bcrypt.hashSync(password, salt)
 
 		const createdUser = await User.create({
-			name,
+			username,
 			email,
 			password: hashedPass,
             userImage,
@@ -82,7 +83,7 @@ router.post("/signin", async (req, res, next) => {
 	}
 })
 
-router.get("/myaccount", (req, res, next) => {
+router.get("/myaccount", isAuthenticated, (req, res, next) => {
 	res.status(200).json(req.payload)
 })
 
