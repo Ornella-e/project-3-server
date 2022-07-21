@@ -30,8 +30,7 @@ router.post("/", isAuthenticated, async (req, res, next) => {
               username,
               description,
               image,
-              city,
-              country,
+              location:{city, country},
               calendar
                } = req.body
 		if (!username) {
@@ -41,8 +40,7 @@ router.post("/", isAuthenticated, async (req, res, next) => {
             username,
             description,
             image,
-            city,
-            country,
+            location:{city, country},
             calendar 
         })
 		return res.status(200).json(couch)
