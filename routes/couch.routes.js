@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
 	try {
 		const { id } = req.params
-		const couch = await Todo.findById(id)
+		const couch = await Couch.findById(id)
 		return res.status(200).json(couch)
 	} catch (error) {
 		next(error)
@@ -50,20 +50,20 @@ router.post("/", isAuthenticated, async (req, res, next) => {
 })
 
 
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", isAuthenticated, async (req, res, next) => {
 	try {
 		const { id } = req.params
-		const couch = await Couch.findByIdAndUpdate(id, req.body, { new: true })
+		const couch = await Couch.findOneAndUpdate({_id: id, owner: req.payload._id}, req.body, { new: true })
 		return res.status(200).json(couch)
 	} catch (error) {
 		next(error)
 	}
 })
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isAuthenticated, async (req, res, next) => {
 	try {
 		const { id } = req.params
-		await Couch.findByIdAndDelete(id)
+		await Couch.findOneAndDelete({_id: id, owner: req.payload._id}, req.body, { new: true })
 		return res.status(200).json({ message: `Couch ${id} deleted` })
 	} catch (error) {
 		next(error)
