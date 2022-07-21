@@ -32,7 +32,7 @@ router.post("/signup", async (req, res, next) => {
 			password: hashedPass,
             userImage,
             couch,
-            location,
+            location:{city, country},
 		})
 
 		const user = createdUser.toObject()
