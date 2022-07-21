@@ -4,8 +4,10 @@ const couchSchema = new Schema(
   {
     username: {
       type: String,
+
       unique: true,
       required: true,
+
   },
   
     description:{
