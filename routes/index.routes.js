@@ -5,9 +5,11 @@ router.get("/", (req, res, next) => {
 });
 
 
+
 const couchRoutes = require("./couch.routes")
 router.use("/couch", couchRoutes)
 const authRoutes = require("./auth.routes")
 router.use("/auth", authRoutes)
+
 
 module.exports = router;
