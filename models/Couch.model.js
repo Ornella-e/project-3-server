@@ -3,11 +3,8 @@ const { Schema, model } = require("mongoose");
 const couchSchema = new Schema(
   {
     username: {
-      type: String,
-
-      unique: true,
-      required: true,
-
+      type: Schema.Types.ObjectId,
+      ref: "User"
   },
   
     description:{
