@@ -8,7 +8,7 @@ const saltRounds = 10
 
 
 router.post("/signup", async (req, res, next) => {
-	const { username, email, password, userImage, couch, location } = req.body
+	const { username, email, password, userImage, couch /* , location */ } = req.body
 	console.log(req.body)
 	if (email === "" || username === "" || password === "") {
 		res
@@ -32,7 +32,7 @@ router.post("/signup", async (req, res, next) => {
 			password: hashedPass,
             userImage,
             couch,
-            location:{city, country},
+        	/* location:{city, country}, */ 
 		})
 
 		const user = createdUser.toObject()
