@@ -32,7 +32,7 @@ router.post("/signup", async (req, res, next) => {
 			password: hashedPass,
             userImage,
             couch,
-            location,
+            location:{city, country},
 		})
 
 		const user = createdUser.toObject()
@@ -86,5 +86,15 @@ router.post("/signin", async (req, res, next) => {
 router.get("/myaccount", isAuthenticated, (req, res, next) => {
 	res.status(200).json(req.payload)
 })
+
+router.get("/logout", (req, res) => {
+	req.session.destroy((err) => {
+	  if (err) {
+		return res.status(500).json({ errorMessage: err.message });
+	  }
+	  res.json({ message: "Done" });
+	});
+})
+
 
 module.exports = router

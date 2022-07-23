@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const couchSchema = new Schema(
   {
+    owner: {
+      type : Schema.Types.ObjectId,
+      ref: 'User'
+    },
     username: {
       type: Schema.Types.ObjectId,
       ref: "User"
