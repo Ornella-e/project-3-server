@@ -31,8 +31,8 @@ router.post("/signup", async (req, res, next) => {
 			email,
 			password: hashedPass,
             userImage,
-            couch,
-        	/* location:{city, country}, */ 
+   
+            location:{city: location.city, country: location.country},
 		})
 
 		const user = createdUser.toObject()

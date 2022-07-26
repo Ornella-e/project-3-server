@@ -6,13 +6,6 @@ const couchSchema = new Schema(
       type : Schema.Types.ObjectId,
       ref: 'User'
     },
-    username: {
-      type: String,
-
-      unique: true,
-      required: true,
-
-  },
   
     description:{
       type:String
