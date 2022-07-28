@@ -1,4 +1,5 @@
 const router = require("express").Router()
+const fileUploader = require('../config/cloudinary.config'); 
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const mongoose = require("mongoose")
@@ -7,8 +8,8 @@ const isAuthenticated = require("../middlewares/isAuthenticated")
 const saltRounds = 10
 
 
-router.post("/signup", async (req, res, next) => {
-	const { username, email, password, userImage, couch /* , location */ } = req.body
+router.post("/signup", fileUploader.single ("userImage"),async(req, res, next) => {
+	const { username, email, password, userImage, couch  , location  } = req.body
 	console.log(req.body)
 	if (email === "" || username === "" || password === "") {
 		res
@@ -30,9 +31,8 @@ router.post("/signup", async (req, res, next) => {
 			username,
 			email,
 			password: hashedPass,
-            userImage,
-   
-            location:{city: location.city, country: location.country},
+            userImage: req.file.path ,
+            location:{city: location.city, country: location.country}, 
 		})
 
 		const user = createdUser.toObject()
