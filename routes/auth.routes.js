@@ -8,8 +8,10 @@ const isAuthenticated = require("../middlewares/isAuthenticated")
 const saltRounds = 10
 
 
+
 router.post("/signup", fileUploader.single("userImage"),async(req, res, next) => {
-	const { username, email, password, userImage, couch  , location  } = req.body
+	const { username, email, password, userImage, couch, location  } = req.body
+  
 	console.log(req.body)
 	if (email === "" || username === "" || password === "") {
 		res
