@@ -1,4 +1,6 @@
+
 const { Schema, model } = require("mongoose");
+const fileUploader = require('../config/cloudinary.config');
 
 const userSchema = new Schema(
   {
