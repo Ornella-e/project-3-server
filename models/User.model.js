@@ -6,31 +6,34 @@ const userSchema = new Schema(
   {
     username: {
       type: String,
-      unique: true, 
-      required: true
+      unique: true,
+      required: true,
     },
-    email:  {
+    email: {
       type: String,
-      unique: true, 
-      required: true
+      unique: true,
+      required: true,
     },
-    password:  {
-      type: String, 
-      required: true
-    }, 
-  
+    password: {
+      type: String,
+      required: true,
+    },
+
     userImage: {
       type: String,
     },
-  couch: [{
-    type: Schema.Types.ObjectId,
-    ref: "Couch"
-}],
-location: {
-  city: String,
-  country: String
-},
-},
+    couch: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Couch",
+      },
+    ],
+    location: {
+      city: String,
+      country: String,
+    },
+    FabCouches: [{ type: Schema.Types.ObjectId, ref: "FabCouch" }],
+  },
   {
     timestamps: true,
   }
