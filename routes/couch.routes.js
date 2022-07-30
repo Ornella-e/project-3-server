@@ -26,9 +26,9 @@ router.post("/", isAuthenticated, async (req, res, next) => {
   console.log(req.body);
   try {
     const { owner, description, image, city, country, calendar } = req.body;
-    if (!owner) {
-      return res.status(400).json({ message: "Username is required" });
-    }
+  //  if (!owner) {
+   //   return res.status(400).json({ message: "Username is required" });
+   // }
     const couch = await Couch.create({
       owner,
       description,
