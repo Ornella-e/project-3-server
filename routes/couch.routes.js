@@ -26,12 +26,13 @@ router.get("/:id", async (req, res, next) => {
 router.post("/", isAuthenticated,fileUploader.single("image"), async (req, res, next) => {
   console.log(req.body);
   try {
-    const { owner, description, image, city, country, calendar } = req.body;
+    const { owner, title, description, image, city, country, calendar } = req.body;
   //  if (!owner) {
    //   return res.status(400).json({ message: "Username is required" });
    // }
     const couch = await Couch.create({
       owner,
+      title,
       description,
       image: req.file.path ,
       location: { city, country },
