@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const Couch = require("../models/Couch.model");
+const fileUploader = require('../config/cloudinary.config'); 
 
 router.get("/", async (req, res, next) => {
   try {
@@ -22,7 +23,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", isAuthenticated, async (req, res, next) => {
+router.post("/", isAuthenticated,fileUploader.single("image"), async (req, res, next) => {
   console.log(req.body);
   try {
     const { owner, description, image, city, country, calendar } = req.body;
@@ -32,7 +33,7 @@ router.post("/", isAuthenticated, async (req, res, next) => {
     const couch = await Couch.create({
       owner,
       description,
-      image,
+      image: req.file.path ,
       location: { city, country },
       calendar,
     });
