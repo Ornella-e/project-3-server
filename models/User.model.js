@@ -32,6 +32,7 @@ const userSchema = new Schema(
       city: String,
       country: String,
     },
+    Renting: [{ type: Schema.Types.ObjectId, ref: "Renting" }],
     FabCouches: [{ type: Schema.Types.ObjectId, ref: "FabCouch" }],
   },
   {
