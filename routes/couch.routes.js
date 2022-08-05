@@ -24,7 +24,8 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.post("/", isAuthenticated,fileUploader.single("image"), async (req, res, next) => {
-  console.log(req.body);
+  const obj = JSON.parse(JSON.stringify(req.body))
+  console.log(obj);
   try {
     const { owner, title, description, image, city, country, calendar } = req.body;
   //  if (!owner) {
