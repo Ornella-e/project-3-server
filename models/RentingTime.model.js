@@ -7,6 +7,6 @@ const rentingTimeSchema = new Schema({
     couch: { type: Schema.Types.ObjectId, ref: "Couch", required:true},
   });
 
-  const Ranking = model("RentingTime", rentingTimeSchema);
+  const RentingTime = model("RentingTime", rentingTimeSchema);
 
 module.exports = RentingTime;
