@@ -3,6 +3,7 @@ const router = express.Router();
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const Couch = require("../models/Couch.model");
 const fileUploader = require("../config/cloudinary.config");
+const RentingTime = require("../models/RentingTime.model");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -18,6 +19,17 @@ router.get("/:id", async (req, res, next) => {
     const { id } = req.params;
     const couch = await Couch.findById(id);
     return res.status(200).json(couch);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    
+    const rent = await RentingTime.findById(id);
+    return res.status(200).json(rent);
   } catch (error) {
     next(error);
   }
@@ -52,12 +64,34 @@ router.post(
   }
 );
 
+router.post(
+  "/:id",
+  isAuthenticated,
+  async (req, res, next) => {
+   
+    try {
+      console.log(req.body); 
+      const { startingDate, endingDate } = req.body;
+        
+      const rent = await RentingTime.create({
+        user: req.payload._id,
+        startingDate, 
+        endingDate, 
+        couch: req.params.id
+      });
+      return res.status(200).json(rent);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.put("/:id", isAuthenticated, async (req, res, next) => {
   try {
     const { id } = req.params;
     const couch = await Couch.findOneAndUpdate(
       { _id: id, owner: req.payload._id },
-      req.body,
+      
       { new: true }
     );
     return res.status(200).json(couch);
