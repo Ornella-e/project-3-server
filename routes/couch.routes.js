@@ -31,6 +31,7 @@ router.post(
     const obj = JSON.parse(JSON.stringify(req.body));
     console.log(obj);
     try {
+      console.log(req.body)
       const { owner, title, description, image, city, country, calendar } =
         req.body;
       //   if (!owner) {
