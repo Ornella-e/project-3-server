@@ -22,14 +22,15 @@ const couchSchema = new Schema(
       city :String,
       country: String
    },
-    evaluations:{
+    evaluations:[{
       type: Schema.Types.ObjectId,
-      ref: "Evaluations"
-    },
-    calendar:{
+      ref: "Ranking"
+    }],
+    calendar: [{
       type: Schema.Types.ObjectId,
-      ref: "Calendar"
-    },
+      ref: "RentingTime",
+      default:[]
+    }],
 },
   {
     timestamps: true,

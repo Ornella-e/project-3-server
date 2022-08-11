@@ -4,11 +4,22 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 const Couch = require("../models/Couch.model");
 const fileUploader = require("../config/cloudinary.config");
 const RentingTime = require("../models/RentingTime.model");
+const { createMochaInstanceAlreadyDisposedError } = require("mocha/lib/errors");
 
 router.get("/", async (req, res, next) => {
   try {
     const couchList = await Couch.find();
     return res.status(200).json(couchList);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/reservations", async (req, res, next) => {
+  try {
+    const reservations = await RentingTime.find({user: req.payload._id});
+    console.log()
+    return res.status(200).json(reservations);
   } catch (error) {
     next(error);
   }
@@ -24,6 +35,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+// change name of routes. they must not be named the same. change in FE as well
 router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -55,7 +67,7 @@ router.post(
         description,
         image: req.file.path,
         location: { city, country },
-        calendar,
+        calendar: [],
       });
       return res.status(200).json(couch);
     } catch (error) {
@@ -68,7 +80,7 @@ router.post(
   "/:id",
   isAuthenticated,
   async (req, res, next) => {
-   
+   const {id} = req.params
     try {
       console.log(req.body); 
       const { startingDate, endingDate } = req.body;
@@ -77,8 +89,19 @@ router.post(
         user: req.payload._id,
         startingDate, 
         endingDate, 
-        couch: req.params.id
+        couch: id
       });
+
+      const couch = await Couch.findById(id);
+
+      let updatedCalendar = [...couch.calendar, rent._id]
+      console.log(updatedCalendar)
+
+      const updatedCouch = await Couch.findByIdAndUpdate(
+        id, {calendar: updatedCalendar},
+        
+        { new: true }
+      );
       return res.status(200).json(rent);
     } catch (error) {
       next(error);
