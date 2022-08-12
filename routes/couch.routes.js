@@ -6,19 +6,11 @@ const fileUploader = require("../config/cloudinary.config");
 const RentingTime = require("../models/RentingTime.model");
 const { createMochaInstanceAlreadyDisposedError } = require("mocha/lib/errors");
 
-router.get("/", async (req, res, next) => {
-  try {
-    const couchList = await Couch.find();
-    return res.status(200).json(couchList);
-  } catch (error) {
-    next(error);
-  }
-});
 
 router.get("/reservations", async (req, res, next) => {
   try {
     const reservations = await RentingTime.find({user: req.payload._id});
-    console.log()
+    console.log(reservations)
     return res.status(200).json(reservations);
   } catch (error) {
     next(error);
@@ -122,6 +114,16 @@ router.put("/:id", isAuthenticated, async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/", async (req, res, next) => {
+  try {
+    const couchList = await Couch.find();
+    return res.status(200).json(couchList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 router.delete("/:id", isAuthenticated, async (req, res, next) => {
   try {
