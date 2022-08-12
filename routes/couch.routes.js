@@ -18,7 +18,7 @@ router.get("/", async (req, res, next) => {
 router.get("/reservations", async (req, res, next) => {
   try {
     const reservations = await RentingTime.find({user: req.payload._id});
-    console.log()
+    console.log(reservations)
     return res.status(200).json(reservations);
   } catch (error) {
     next(error);
