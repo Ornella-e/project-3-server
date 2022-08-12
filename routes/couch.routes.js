@@ -4,6 +4,7 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 const Couch = require("../models/Couch.model");
 const fileUploader = require("../config/cloudinary.config");
 const RentingTime = require("../models/RentingTime.model");
+const Ranking = require("../models/Ranking.model");
 const { createMochaInstanceAlreadyDisposedError } = require("mocha/lib/errors");
 
 
@@ -12,6 +13,16 @@ router.get("/reservations", async (req, res, next) => {
     const reservations = await RentingTime.find({user: req.payload._id});
     console.log(reservations)
     return res.status(200).json(reservations);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/evaluations", async (req, res, next) => {
+  try {
+    const evaluations = await Ranking.find({user: req.payload._id});
+    console.log(evaluations)
+    return res.status(200).json(evaluations);
   } catch (error) {
     next(error);
   }
@@ -60,6 +71,7 @@ router.post(
         image: req.file.path,
         location: { city, country },
         calendar: [],
+        evaluations: [],
       });
       return res.status(200).json(couch);
     } catch (error) {
@@ -95,6 +107,39 @@ router.post(
         { new: true }
       );
       return res.status(200).json(rent);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  "/evaluations",
+  isAuthenticated,
+  async (req, res, next) => {
+   const {id} = req.params
+    try {
+      console.log(req.body); 
+      const { evaluation, grade } = req.body;
+        
+      const rankings = await Ranking.create({
+        user: req.payload._id,
+        evaluation,
+        grade, 
+        couch: id
+      });
+
+      const couch = await Couch.findById(id);
+
+      let updatedRanking = [...couch.evaluations, rankings._id]
+      console.log(updatedRanking)
+
+      const updatedCouch = await Couch.findByIdAndUpdate(
+        id, {evaluations: updatedRanking},
+        
+        { new: true }
+      );
+      return res.status(200).json(rankings);
     } catch (error) {
       next(error);
     }
