@@ -24,7 +24,8 @@ const couchSchema = new Schema(
    },
     evaluations:[{
       type: Schema.Types.ObjectId,
-      ref: "Ranking"
+      ref: "Ranking",
+      default:[]
     }],
     calendar: [{
       type: Schema.Types.ObjectId,
