@@ -5,12 +5,14 @@ const Couch = require("../models/Couch.model");
 const fileUploader = require("../config/cloudinary.config");
 const RentingTime = require("../models/RentingTime.model");
 const Ranking = require("../models/Ranking.model");
+
 const User= require("../models/User.model")
-const { createMochaInstanceAlreadyDisposedError } = require("mocha/lib/errors");
+
 
 
 router.get("/reservations", isAuthenticated, async (req, res, next) => {
   try {
+   
     const reservations = await RentingTime.find({user: req.payload._id});
     console.log(reservations)
     return res.status(200).json(reservations);
@@ -21,7 +23,8 @@ router.get("/reservations", isAuthenticated, async (req, res, next) => {
 
 router.get("/evaluations", isAuthenticated, async (req, res, next) => {
   try {
-    const evaluations = await Ranking.find({user: req.payload._id});
+   
+    const evaluations = await Ranking.find({User: req.payload._id});
     console.log(evaluations)
     return res.status(200).json(evaluations);
   } catch (error) {
@@ -91,7 +94,7 @@ router.post(
       const { startingDate, endingDate } = req.body;
         
       const rent = await RentingTime.create({
-        user: req.payload._id,
+        User: req.payload._id,
         startingDate, 
         endingDate, 
         couch: id
@@ -129,7 +132,7 @@ router.post(
       const { evaluation, grade } = req.body;
         
       const rankings = await Ranking.create({
-        user: req.payload._id,
+        User: req.payload._id,
         evaluation,
         grade, 
         couch: couchId
