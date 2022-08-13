@@ -7,7 +7,7 @@ const RentingTime = require("../models/RentingTime.model");
 const Ranking = require("../models/Ranking.model");
 
 
-router.get("/reservations", async (req, res, next) => {
+router.get("/reservations", isAuthenticated, async (req, res, next) => {
   try {
    
     const reservations = await RentingTime.find({user: req.payload._id});
@@ -18,7 +18,7 @@ router.get("/reservations", async (req, res, next) => {
   }
 });
 
-router.get("/evaluations", async (req, res, next) => {
+router.get("/evaluations", isAuthenticated, async (req, res, next) => {
   try {
    
     const evaluations = await Ranking.find({User: req.payload._id});
@@ -40,16 +40,16 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // change name of routes. they must not be named the same. change in FE as well
-router.get("/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
+//router.get("/:id", async (req, res, next) => {
+ // try {
+ //  const { id } = req.params;
     
-    const rent = await RentingTime.findById(id);
-    return res.status(200).json(rent);
-  } catch (error) {
-    next(error);
-  }
-});
+  //  const rent = await RentingTime.findById(id);
+  //  return res.status(200).json(rent);
+ // } catch (error) {
+ //   next(error);
+ // }
+//});
 
 router.post(
   "/",
