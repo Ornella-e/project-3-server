@@ -5,6 +5,7 @@ const Couch = require("../models/Couch.model");
 const fileUploader = require("../config/cloudinary.config");
 const RentingTime = require("../models/RentingTime.model");
 const Ranking = require("../models/Ranking.model");
+const User= require("../models/User.model")
 const { createMochaInstanceAlreadyDisposedError } = require("mocha/lib/errors");
 
 
@@ -105,7 +106,12 @@ router.post(
         id, {calendar: updatedCalendar},
         
         { new: true }
+
+
+
       );
+
+    
       return res.status(200).json(rent);
     } catch (error) {
       next(error);
@@ -114,10 +120,10 @@ router.post(
 );
 
 router.post(
-  "/evaluations",
+  "/:reservationId/evaluations/:couchId",
   isAuthenticated,
   async (req, res, next) => {
-   const {id} = req.params
+   const {reservationId, couchId} = req.params
     try {
       console.log(req.body); 
       const { evaluation, grade } = req.body;
@@ -126,16 +132,18 @@ router.post(
         user: req.payload._id,
         evaluation,
         grade, 
-        couch: id
+        couch: couchId
       });
 
-      const couch = await Couch.findById(id);
-
+      const couch = await Couch.findById(couchId);
+      if (!couch) {
+        return res.status(401).json({message: 'This couch does not exist: ' + reservationId})
+      }
       let updatedRanking = [...couch.evaluations, rankings._id]
       console.log(updatedRanking)
-
+    
       const updatedCouch = await Couch.findByIdAndUpdate(
-        id, {evaluations: updatedRanking},
+        reservationId, {evaluations: updatedRanking},
         
         { new: true }
       );
