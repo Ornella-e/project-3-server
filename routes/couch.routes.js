@@ -32,7 +32,7 @@ router.get("/evaluations", isAuthenticated, async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const couch = await Couch.findById(id).populate('evaluations');
+    const couch = await Couch.findById(id).populate('calendar evaluations');
    console.log(couch);
     return res.status(200).json(couch);
   } catch (error) {
