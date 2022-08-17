@@ -8,11 +8,10 @@ const Ranking = require("../models/Ranking.model");
 const User= require("../models/User.model")
 
 
-
 router.get("/reservations", isAuthenticated, async (req, res, next) => {
   try {
    
-    const reservations = await RentingTime.find({user: req.payload._id});
+    const reservations = await RentingTime.find({user: req.payload._id}).populate({path:'user couch', select:'username title'});
     console.log(reservations)
     return res.status(200).json(reservations);
   } catch (error) {
@@ -23,7 +22,7 @@ router.get("/reservations", isAuthenticated, async (req, res, next) => {
 router.get("/evaluations", isAuthenticated, async (req, res, next) => {
   try {
    
-    const evaluations = await Ranking.find({user: req.payload._id});
+    const evaluations = await Ranking.find({user: req.payload._id}).populate({path:'user couch', select:'username title'});
     console.log(evaluations)
     return res.status(200).json(evaluations);
   } catch (error) {
@@ -34,7 +33,7 @@ router.get("/evaluations", isAuthenticated, async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const couch = await Couch.findById(id).populate('calendar evaluations');
+    const couch = await Couch.findById(id).populate('owner calendar evaluations');
    console.log(couch);
     return res.status(200).json(couch);
   } catch (error) {
