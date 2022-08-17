@@ -159,9 +159,10 @@ router.post(
 router.put("/:id", isAuthenticated, async (req, res, next) => {
   try {
     const { id } = req.params;
+    const {title, description} = req.body;
     const couch = await Couch.findOneAndUpdate(
       { _id: id, owner: req.payload._id },
-      
+      {title, description},
       { new: true }
     );
     return res.status(200).json(couch);
