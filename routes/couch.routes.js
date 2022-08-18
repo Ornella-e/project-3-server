@@ -145,10 +145,13 @@ router.post(
       console.log(updatedRanking)
     
       const updatedCouch = await Couch.findByIdAndUpdate(
-        reservationId, {evaluations: updatedRanking},
+        couchId, {evaluations: updatedRanking},
         
         { new: true }
       );
+
+      console.log(updatedCouch)
+      console.log(couch)
       return res.status(200).json(rankings);
     } catch (error) {
       next(error);
