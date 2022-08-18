@@ -33,7 +33,7 @@ const userSchema = new Schema(
       country: String,
     },
     renting: [{ type: Schema.Types.ObjectId, ref: "RentingTime",  default:[] }],
-    FabCouches: [{ type: Schema.Types.ObjectId, ref: "FabCouch" }],
+    evaluations: [{ type: Schema.Types.ObjectId, ref: "Ranking",  default:[] }],
   },
   {
     timestamps: true,
