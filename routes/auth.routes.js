@@ -12,7 +12,7 @@ const saltRounds = 10
 router.post("/signup", fileUploader.single("userImage"),async(req, res, next) => {
 	const { username, email, password, userImage, couch, location  } = req.body
   
-	console.log(req.body)
+	
 	if (email === "" || username === "" || password === "") {
 		res
 			.status(400)
@@ -21,7 +21,7 @@ router.post("/signup", fileUploader.single("userImage"),async(req, res, next) =>
 
 	try {
 		const foundUser = await User.findOne({ email })
-		console.log(foundUser)
+		
 		if (foundUser) {
 			res.status(400).json({ message: "Username already taken." })
 			return
@@ -41,7 +41,7 @@ router.post("/signup", fileUploader.single("userImage"),async(req, res, next) =>
 		delete user.password
 		res.status(201).json({ user })
 	} catch (error) {
-		console.log(error)
+	
 		if (error instanceof mongoose.Error.ValidationError) {
 			return res.status(400).json({ message: error.message })
 		}
