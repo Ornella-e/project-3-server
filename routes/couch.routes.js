@@ -12,7 +12,7 @@ router.get("/reservations", isAuthenticated, async (req, res, next) => {
   try {
    
     const reservations = await RentingTime.find({user: req.payload._id}).populate({path:'user couch', select:'username title'});
-    console.log(reservations)
+   
     return res.status(200).json(reservations);
   } catch (error) {
     next(error);
@@ -23,7 +23,7 @@ router.get("/evaluations", isAuthenticated, async (req, res, next) => {
   try {
    
     const evaluations = await Ranking.find({user: req.payload._id}).populate({path:'user couch', select:'username title'});
-    console.log(evaluations)
+    
     return res.status(200).json(evaluations);
   } catch (error) {
     next(error);
@@ -34,7 +34,7 @@ router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const couch = await Couch.findById(id).populate('owner calendar evaluations');
-   console.log(couch);
+   
     return res.status(200).json(couch);
   } catch (error) {
     next(error);
@@ -59,9 +59,9 @@ router.post(
   fileUploader.single("image"),
   async (req, res, next) => {
     const obj = JSON.parse(JSON.stringify(req.body));
-    console.log(obj);
+    
     try {
-      console.log(req.body)
+     
       const { owner, title, description, image, city, country, calendar } =
         req.body;
       //   if (!owner) {
@@ -89,7 +89,7 @@ router.post(
   async (req, res, next) => {
    const {id} = req.params
     try {
-      console.log(req.body); 
+      
       const { startingDate, endingDate } = req.body;
         
       const rent = await RentingTime.create({
@@ -102,7 +102,7 @@ router.post(
       const couch = await Couch.findById(id);
 
       let updatedCalendar = [...couch.calendar, rent._id]
-      console.log(updatedCalendar)
+      
 
       const updatedCouch = await Couch.findByIdAndUpdate(
         id, {calendar: updatedCalendar},
@@ -127,7 +127,7 @@ router.post(
   async (req, res, next) => {
    const {reservationId, couchId} = req.params
     try {
-      console.log(req.body); 
+      
       const { evaluation, grade } = req.body;
         
       const rankings = await Ranking.create({
@@ -142,10 +142,10 @@ router.post(
         return res.status(401).json({message: 'This couch does not exist: ' + reservationId})
       }
       let updatedRanking = [...couch.evaluations, rankings._id]
-      console.log(updatedRanking)
+      
     
       const updatedCouch = await Couch.findByIdAndUpdate(
-        reservationId, {evaluations: updatedRanking},
+        couchId, {evaluations: updatedRanking},
         
         { new: true }
       );
