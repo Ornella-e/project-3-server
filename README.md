@@ -7,9 +7,7 @@ SERVER README
 Share Couch is a couch exchange app, where couch owners can share their couch with other registered users for free, anywhere in the world.
 - A version of the app is visible to non logged users, but with limited options, like search.
 - When users log in, they can access their profile, edit it, and leave ratings and comments, also edit password.
-Deployment: ""
-Trello: https://trello.com/b/suDXWMvC
-Presentation slides: ""
+
 ---
 ## Pages / content
 ```
